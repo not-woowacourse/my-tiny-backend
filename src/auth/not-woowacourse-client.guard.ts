@@ -4,7 +4,8 @@ import {
   Inject,
   Injectable,
 } from '@nestjs/common';
-import { ClientsService } from 'src/clients/clients.service';
+
+import { ClientsService } from '@/clients/clients.service';
 
 @Injectable()
 export class NotWoowacourseClientGuard implements CanActivate {

@@ -1,5 +1,6 @@
-import { Todo } from 'src/todos/entities/todo.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+
+import { Todo } from '@/todos/entities/todo.entity';
 
 @Entity()
 export class Client {

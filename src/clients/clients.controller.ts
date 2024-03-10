@@ -1,5 +1,7 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
-import { NotWoowacourseAdminGuard } from 'src/auth/not-woowacourse-admin.guard';
+
+import { NotWoowacourseAdminGuard } from '@/auth/not-woowacourse-admin.guard';
+
 import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 

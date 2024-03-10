@@ -1,14 +1,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Client } from 'src/clients/entities/client.entity';
-import { Todo } from 'src/todos/entities/todo.entity';
+
+import { ClientsModule } from '@/clients/clients.module';
+import { Client } from '@/clients/entities/client.entity';
+import { ResumesModule } from '@/resumes/resumes.module';
+import { Todo } from '@/todos/entities/todo.entity';
+import { TodosModule } from '@/todos/todos.module';
+import { UsersModule } from '@/users/users.module';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ClientsModule } from './clients/clients.module';
-import { ResumesModule } from './resumes/resumes.module';
-import { TodosModule } from './todos/todos.module';
-import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [

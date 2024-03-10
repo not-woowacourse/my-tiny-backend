@@ -1,8 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Client } from 'src/clients/entities/client.entity';
 import { Repository } from 'typeorm';
+
 import { CreateClientDto } from './dto/create-client.dto';
+import { Client } from './entities/client.entity';
 
 @Injectable()
 export class ClientsService {

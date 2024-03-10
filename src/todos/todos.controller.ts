@@ -9,8 +9,10 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { NotWoowacourseClientGuard } from 'src/auth/not-woowacourse-client.guard';
-import { ClientsService } from 'src/clients/clients.service';
+
+import { NotWoowacourseClientGuard } from '@/auth/not-woowacourse-client.guard';
+import { ClientsService } from '@/clients/clients.service';
+
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { TodosService } from './todos.service';

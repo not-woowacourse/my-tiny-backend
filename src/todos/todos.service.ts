@@ -1,8 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Client } from 'src/clients/entities/client.entity';
-import { Todo } from 'src/todos/entities/todo.entity';
 import { Repository } from 'typeorm';
+
+import { Client } from '@/clients/entities/client.entity';
+import { Todo } from '@/todos/entities/todo.entity';
+
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 
