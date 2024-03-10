@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Client } from 'src/clients/entities/client.entity';
 import { Todo } from 'src/todos/entities/todo.entity';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -22,7 +23,7 @@ import { UsersModule } from './users/users.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [Todo],
+        entities: [Todo, Client],
         synchronize: true, // Don't use this in production
       }),
     }),

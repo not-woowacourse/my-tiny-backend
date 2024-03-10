@@ -1,26 +1,28 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Client } from 'src/clients/entities/client.entity';
+import { Repository } from 'typeorm';
 import { CreateClientDto } from './dto/create-client.dto';
-import { UpdateClientDto } from './dto/update-client.dto';
 
 @Injectable()
 export class ClientsService {
-  create(createClientDto: CreateClientDto) {
-    return 'This action adds a new client';
-  }
+  constructor(
+    @InjectRepository(Client)
+    private readonly clientRepository: Repository<Client>,
+  ) {}
 
-  findAll() {
-    return `This action returns all clients`;
-  }
+  async create(createClientDto: CreateClientDto) {
+    const { name } = createClientDto;
+    const existingClient = await this.clientRepository.findOneBy({
+      name,
+    });
 
-  findOne(id: number) {
-    return `This action returns a #${id} client`;
-  }
+    if (existingClient) {
+      throw new BadRequestException('이미 같은 이름의 클라이언트가 존재합니다');
+    }
 
-  update(id: number, updateClientDto: UpdateClientDto) {
-    return `This action updates a #${id} client`;
-  }
+    const client = this.clientRepository.create(createClientDto);
 
-  remove(id: number) {
-    return `This action removes a #${id} client`;
+    return await this.clientRepository.save(client);
   }
 }

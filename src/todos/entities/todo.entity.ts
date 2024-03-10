@@ -1,7 +1,9 @@
+import { Client } from 'src/clients/entities/client.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -22,4 +24,7 @@ export class Todo {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @ManyToOne(() => Client, (client) => client.todos)
+  client: Client;
 }
