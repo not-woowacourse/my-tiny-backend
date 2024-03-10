@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Client } from 'src/clients/entities/client.entity';
 import { Todo } from 'src/todos/entities/todo.entity';
 import { Repository } from 'typeorm';
 import { CreateTodoDto } from './dto/create-todo.dto';
@@ -12,26 +13,25 @@ export class TodosService {
     private readonly todoRepository: Repository<Todo>,
   ) {}
 
-  async create(createTodoDto: CreateTodoDto) {
-    const todo = this.todoRepository.create(createTodoDto);
+  async create(client: Client, createTodoDto: CreateTodoDto) {
+    const todo = this.todoRepository.create({ ...createTodoDto, client });
 
     return await this.todoRepository.save(todo);
   }
 
-  async findAll() {
-    return await this.todoRepository.find();
+  async findAll(client: Client) {
+    return await this.todoRepository.findBy({ client });
   }
 
-  async findOne(id: number) {
-    return await this.todoRepository.findOne({
-      where: {
-        id,
-      },
+  async findOne(client: Client, id: number) {
+    return await this.todoRepository.findOneBy({
+      client,
+      id,
     });
   }
 
-  async update(id: number, updateTodoDto: UpdateTodoDto) {
-    const todo = await this.findOne(id);
+  async update(client: Client, id: number, updateTodoDto: UpdateTodoDto) {
+    const todo = await this.findOne(client, id);
 
     if (todo === null) {
       throw new NotFoundException();
@@ -42,8 +42,8 @@ export class TodosService {
     return await this.todoRepository.save(todo);
   }
 
-  async remove(id: number) {
-    const todo = this.findOne(id);
+  async remove(client: Client, id: number) {
+    const todo = this.findOne(client, id);
 
     if (todo === null) {
       throw new NotFoundException();

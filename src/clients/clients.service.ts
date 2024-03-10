@@ -25,4 +25,10 @@ export class ClientsService {
 
     return await this.clientRepository.save(client);
   }
+
+  async findOneByName(name: string) {
+    return await this.clientRepository.findOneBy({
+      name,
+    });
+  }
 }
