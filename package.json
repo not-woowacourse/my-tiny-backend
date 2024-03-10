@@ -1,10 +1,10 @@
 {
   "name": "my-tiny-backend",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "version": "0.1.0",
+  "description": "Backend for not-woowacourse session in kucc",
+  "author": "Yongjun Park <yopark.dev@gmail.com>",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
