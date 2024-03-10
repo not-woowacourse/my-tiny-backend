@@ -1,0 +1,24 @@
+name: my-tiny-backend
+app: node@16
+options:
+  env:
+    - name: NODE_ENV
+      value: production
+    - name: DB_HOST
+      value: ${CLOUDTYPE_DB_HOST}
+    - name: DB_PORT
+      value: ${CLOUDTYPE_DB_PORT}
+    - name: DB_USERNAME
+      value: ${CLOUDTYPE_DB_USERNAME}
+    - name: DB_PASSWORD
+      value: ${CLOUDTYPE_DB_PASSWORD}
+    - name: DB_NAME
+      value: ${CLOUDTYPE_DB_NAME}
+  ports: 3000
+  install: npm install
+  build: npm run build
+  start: npm run start:prod
+context:
+  git:
+    url: https://github.com/not-woowacourse/my-tiny-backend.git
+    branch: main
