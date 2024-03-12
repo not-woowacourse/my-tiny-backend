@@ -26,10 +26,16 @@ export class TodosService {
   }
 
   async findOne(client: Client, id: number) {
-    return await this.todoRepository.findOneBy({
+    const todo = await this.todoRepository.findOneBy({
       client,
       id,
     });
+
+    if (todo === null) {
+      throw new NotFoundException();
+    }
+
+    return todo;
   }
 
   async update(client: Client, id: number, updateTodoDto: UpdateTodoDto) {

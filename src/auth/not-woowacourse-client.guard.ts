@@ -17,7 +17,7 @@ export class NotWoowacourseClientGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
 
-    const name = request.headers['Not-Woowacourse-Client-Name'.toLowerCase()];
+    const name = request.headers['Not-Woowacourse-Client-Name'];
 
     const client = await this.clientsService.findOneByName(name);
 
