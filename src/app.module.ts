@@ -4,10 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ClientsModule } from '@/clients/clients.module';
 import { Client } from '@/clients/entities/client.entity';
-import { ResumesModule } from '@/resumes/resumes.module';
 import { Todo } from '@/todos/entities/todo.entity';
 import { TodosModule } from '@/todos/todos.module';
-import { UsersModule } from '@/users/users.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -30,9 +28,7 @@ import { AppService } from './app.service';
       }),
     }),
     TodosModule,
-    ResumesModule,
     ClientsModule,
-    UsersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
