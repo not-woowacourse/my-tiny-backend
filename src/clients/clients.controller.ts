@@ -13,7 +13,7 @@ import { ClientsService } from './clients.service';
 import { CreateClientDto } from './dto/create-client.dto';
 
 @Controller('clients')
-@ApiTags('클라이언트 API (모든 과제에서 공통으로 사용)')
+@ApiTags('0.2. Clients')
 export class ClientsController {
   constructor(private readonly clientsService: ClientsService) {}
 

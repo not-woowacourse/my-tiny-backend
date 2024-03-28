@@ -4,13 +4,13 @@ import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { AppService } from './app.service';
 
 @Controller()
-@ApiTags('앱 API (모든 과제에서 공통으로 사용)')
+@ApiTags('0.1. App')
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
   @ApiOperation({
-    summary: '서버 살아있는지 확인',
+    summary: '헬스 체크',
   })
   @ApiOkResponse({ description: '서버 살아있음' })
   getHello(): string {

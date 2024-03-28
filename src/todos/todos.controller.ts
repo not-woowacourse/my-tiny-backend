@@ -31,7 +31,7 @@ import { TodosService } from './todos.service';
 
 @UseGuards(ClientGuard)
 @Controller('todos')
-@ApiTags('할 일 API (toodoo에서만 사용)')
+@ApiTags('1.1. Todos')
 @ApiUnauthorizedResponse({
   description: 'Client-Name의 값이 잘못된 경우',
 })

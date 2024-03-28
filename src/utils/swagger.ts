@@ -16,7 +16,12 @@ const setupSwagger = (app: INestApplication) => {
 
   const document = SwaggerModule.createDocument(app, options);
 
-  SwaggerModule.setup('api-docs', app, document);
+  SwaggerModule.setup('api-docs', app, document, {
+    swaggerOptions: {
+      tagsSorter: 'alpha',
+      operationsSorter: 'alpha',
+    },
+  });
 };
 
 export { setupSwagger };
