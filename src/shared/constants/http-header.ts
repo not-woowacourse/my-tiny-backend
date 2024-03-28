@@ -1,4 +1,3 @@
-const NOT_WOOWACOURSE_CLIENT_NAME_KEY =
-  'Not-Woowacourse-Client-Name'.toLowerCase();
+const CLIENT_NAME_KEY = 'Client-Name'.toLowerCase();
 
-export { NOT_WOOWACOURSE_CLIENT_NAME_KEY };
+export { CLIENT_NAME_KEY };

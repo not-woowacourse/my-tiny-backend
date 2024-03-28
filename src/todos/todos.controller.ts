@@ -21,20 +21,19 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
-import { NotWoowacourseClientGuard } from '@/auth/not-woowacourse-client.guard';
+import { ClientGuard } from '@/auth/client.guard';
 import { ClientsService } from '@/clients/clients.service';
-import { NOT_WOOWACOURSE_CLIENT_NAME_KEY } from '@/shared/constants/http-header';
+import { CLIENT_NAME_KEY } from '@/shared/constants/http-header';
 
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { TodosService } from './todos.service';
 
-@UseGuards(NotWoowacourseClientGuard)
+@UseGuards(ClientGuard)
 @Controller('todos')
 @ApiTags('할 일 API (toodoo에서만 사용)')
 @ApiUnauthorizedResponse({
-  description:
-    'Not-Woowacourse-Client-Name의 값이 잘못된 경우 (등록하지 않은 클라이언트 이름이거나, 헤더에 오타가 있을 수 있습니다 😅)',
+  description: 'Client-Name의 값이 잘못된 경우',
 })
 export class TodosController {
   constructor(
@@ -47,7 +46,7 @@ export class TodosController {
     summary: '할 일 생성',
   })
   @ApiHeader({
-    name: NOT_WOOWACOURSE_CLIENT_NAME_KEY,
+    name: CLIENT_NAME_KEY,
     description: '등록한 클라이언트 이름',
     required: true,
   })
@@ -56,7 +55,7 @@ export class TodosController {
     description: '할 일 생성 성공',
   })
   async create(
-    @Headers(NOT_WOOWACOURSE_CLIENT_NAME_KEY) clientName: string,
+    @Headers(CLIENT_NAME_KEY) clientName: string,
     @Body()
     createTodoDto: CreateTodoDto,
   ) {
@@ -70,13 +69,13 @@ export class TodosController {
     summary: '모든 할 일 조회',
   })
   @ApiHeader({
-    name: NOT_WOOWACOURSE_CLIENT_NAME_KEY,
+    name: CLIENT_NAME_KEY,
     description: '등록한 클라이언트 이름',
   })
   @ApiOkResponse({
     description: '모든 할 일 조회 성공',
   })
-  async findAll(@Headers(NOT_WOOWACOURSE_CLIENT_NAME_KEY) clientName: string) {
+  async findAll(@Headers(CLIENT_NAME_KEY) clientName: string) {
     const client = await this.clientsService.findOneByName(clientName);
 
     return this.todosService.findAll(client);
@@ -88,7 +87,7 @@ export class TodosController {
   })
   @ApiParam({ name: 'id', description: '할 일 ID' })
   @ApiHeader({
-    name: NOT_WOOWACOURSE_CLIENT_NAME_KEY,
+    name: CLIENT_NAME_KEY,
     description: '등록한 클라이언트 이름',
   })
   @ApiOkResponse({
@@ -99,7 +98,7 @@ export class TodosController {
   })
   async findOne(
     @Param('id') id: string,
-    @Headers(NOT_WOOWACOURSE_CLIENT_NAME_KEY) clientName: string,
+    @Headers(CLIENT_NAME_KEY) clientName: string,
   ) {
     const client = await this.clientsService.findOneByName(clientName);
 
@@ -113,7 +112,7 @@ export class TodosController {
   @ApiBody({ type: UpdateTodoDto })
   @ApiParam({ name: 'id', description: '할 일 ID' })
   @ApiHeader({
-    name: NOT_WOOWACOURSE_CLIENT_NAME_KEY,
+    name: CLIENT_NAME_KEY,
     description: '등록한 클라이언트 이름',
   })
   @ApiOkResponse({
@@ -124,7 +123,7 @@ export class TodosController {
   })
   async update(
     @Param('id') id: string,
-    @Headers(NOT_WOOWACOURSE_CLIENT_NAME_KEY) clientName: string,
+    @Headers(CLIENT_NAME_KEY) clientName: string,
     @Body() updateTodoDto: UpdateTodoDto,
   ) {
     const client = await this.clientsService.findOneByName(clientName);
@@ -138,7 +137,7 @@ export class TodosController {
   })
   @ApiParam({ name: 'id', description: '할 일 ID' })
   @ApiHeader({
-    name: NOT_WOOWACOURSE_CLIENT_NAME_KEY,
+    name: CLIENT_NAME_KEY,
     description: '등록한 클라이언트 이름',
   })
   @ApiOkResponse({
@@ -149,7 +148,7 @@ export class TodosController {
   })
   async remove(
     @Param('id') id: string,
-    @Headers(NOT_WOOWACOURSE_CLIENT_NAME_KEY) clientName: string,
+    @Headers(CLIENT_NAME_KEY) clientName: string,
   ) {
     const client = await this.clientsService.findOneByName(clientName);
 

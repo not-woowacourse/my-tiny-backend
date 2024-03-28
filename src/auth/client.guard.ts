@@ -6,10 +6,10 @@ import {
 } from '@nestjs/common';
 
 import { ClientsService } from '@/clients/clients.service';
-import { NOT_WOOWACOURSE_CLIENT_NAME_KEY } from '@/shared/constants/http-header';
+import { CLIENT_NAME_KEY } from '@/shared/constants/http-header';
 
 @Injectable()
-export class NotWoowacourseClientGuard implements CanActivate {
+export class ClientGuard implements CanActivate {
   constructor(
     @Inject(ClientsService)
     private readonly clientsService: ClientsService,
@@ -18,9 +18,9 @@ export class NotWoowacourseClientGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
 
-    const name = request.headers[NOT_WOOWACOURSE_CLIENT_NAME_KEY];
+    const clientName = request.headers[CLIENT_NAME_KEY];
 
-    const client = await this.clientsService.findOneByName(name);
+    const client = await this.clientsService.findOneByName(clientName);
 
     return client !== null;
   }

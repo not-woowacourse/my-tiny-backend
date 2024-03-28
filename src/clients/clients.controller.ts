@@ -21,7 +21,7 @@ export class ClientsController {
   @ApiOperation({
     summary: '클라이언트 등록',
     description:
-      '과제 수행하기 전에 과제 진행자 간 데이터 분리를 위해 클라이언트를 등록해야 합니다.',
+      '과제 진행자 간 데이터 분리를 위해 사전에 클라이언트를 등록해야 합니다.',
   })
   @ApiBody({ type: CreateClientDto })
   @ApiCreatedResponse({

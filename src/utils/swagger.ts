@@ -5,7 +5,7 @@ const setupSwagger = (app: INestApplication) => {
   const options = new DocumentBuilder()
     .setTitle('우테코 따라잡기 API 문서')
     .setDescription(
-      '이걸 만든 사람은 백엔드 개발자가 아닙니다. 사용해보시고 오류나 빈틈이 있으면 채널톡 부탁드립니다 😭 (과제명 참고: 1-toodoo, 2-reecruit, 3-ohauth)',
+      '이걸 만든 사람은 백엔드 개발자가 아닙니다. 사용해보시고 오류나 빈틈이 있으면 채널톡 부탁드립니다 😭 (과제명 참고: 1-toodoo, 2-reecruit)',
     )
     .setExternalDoc(
       '우테코 따라잡기 깃허브 바로가기',
