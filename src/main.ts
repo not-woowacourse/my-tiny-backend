@@ -9,7 +9,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: ['http://localhost:10242'],
+    origin: [
+      'http://localhost:10242',
+      'https://not-woowacourse-1-toodoo-frontend-for-example.vercel.app',
+    ],
   });
 
   setupSwagger(app);
