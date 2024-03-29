@@ -1,11 +1,5 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import {
-  IsBoolean,
-  IsIn,
-  IsNumber,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { IsBoolean, IsNumber, IsOptional, IsString } from 'class-validator';
 import {
   Column,
   CreateDateColumn,
@@ -16,7 +10,6 @@ import {
 } from 'typeorm';
 
 import { Client } from '@/clients/entities/client.entity';
-import { Priority } from '@/todos/enums/prioirty.enum';
 
 @Entity()
 export class Todo {
@@ -38,16 +31,6 @@ export class Todo {
     example: '흰 옷, 검은 옷 구분하기',
   })
   description: string;
-
-  @Column('enum', { enum: Priority, nullable: true })
-  @IsIn([Priority.LOW, Priority.MEDIUM, Priority.HIGH])
-  @IsOptional()
-  @ApiPropertyOptional({
-    description: '할 일 중요도',
-    example: 'LOW',
-    enum: Priority,
-  })
-  priority: Priority;
 
   @Column('boolean', { default: false })
   @IsBoolean()
