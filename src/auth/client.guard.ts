@@ -3,6 +3,7 @@ import {
   ExecutionContext,
   Inject,
   Injectable,
+  UnauthorizedException,
 } from '@nestjs/common';
 
 import { ClientsService } from '@/clients/clients.service';
@@ -22,6 +23,10 @@ export class ClientGuard implements CanActivate {
 
     const client = await this.clientsService.findOneByName(clientName);
 
-    return client !== null;
+    if (client === null) {
+      throw new UnauthorizedException('클라이언트를 찾을 수 없습니다.');
+    }
+
+    return true;
   }
 }

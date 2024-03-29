@@ -1,6 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { PickType } from '@nestjs/swagger';
 
-export class CreateClientDto {
-  @ApiProperty({ description: '이름', example: 'Yongjun Park' })
-  name: string;
-}
+import { Client } from '@/clients/entities/client.entity';
+
+export class CreateClientDto extends PickType(Client, ['name'] as const) {}
