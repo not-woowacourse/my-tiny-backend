@@ -1,0 +1,27 @@
+name: Health check
+on:
+  schedule:
+    - cron: '0 */3 * * *'
+  workflow_dispatch:
+jobs:
+  health-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Health check
+        uses: jtalk/url-health-check-action@v3
+        with:
+          url: ${{ secrets.DEPLOYED_URL }}
+          max-attempts: 3
+          retry-delay: 1s
+      - name: Send mail
+        if: failure()
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.EMAIL }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          subject: '🔥 우테코 따라잡기 서버가 중지되었어요 🔥'
+          body: 'https://cloudtype.io 로 들어가 서버를 재가동시켜주세요.'
+          to: ${{ secrets.EMAIL }}
+          from: ${{ secrets.EMAIL }}
