@@ -1,19 +1,7 @@
-// export class UpdateTodoDto extends PartialType(PickType(Todo, ['content', 'isDone'] as const)) {}
+import { PartialType, PickType } from '@nestjs/swagger';
 
-import { ApiProperty } from '@nestjs/swagger';
+import { Todo } from '@/todos/entities/todo.entity';
 
-export class UpdateTodoDto {
-  @ApiProperty({
-    description: '할 일 내용',
-    example: '세탁기 돌리기',
-    required: false,
-  })
-  content?: string;
-
-  @ApiProperty({
-    description: '할 일 완료 여부',
-    example: false,
-    required: false,
-  })
-  isDone?: boolean;
-}
+export class UpdateTodoDto extends PartialType(
+  PickType(Todo, ['title', 'description', 'priority', 'isDone'] as const),
+) {}

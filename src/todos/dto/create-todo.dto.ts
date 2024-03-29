@@ -1,8 +1,5 @@
-// export class CreateTodoDto extends PickType(Todo, ['content'] as const) {}
+import { PickType } from '@nestjs/swagger';
 
-import { ApiProperty } from '@nestjs/swagger';
+import { Todo } from '@/todos/entities/todo.entity';
 
-export class CreateTodoDto {
-  @ApiProperty({ description: '할 일 내용', example: '세탁기 돌리기' })
-  content: string;
-}
+export class CreateTodoDto extends PickType(Todo, ['title'] as const) {}

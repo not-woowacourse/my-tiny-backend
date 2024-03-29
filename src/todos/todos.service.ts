@@ -32,7 +32,7 @@ export class TodosService {
     });
 
     if (todo === null) {
-      throw new NotFoundException();
+      throw new NotFoundException('할 일을 찾을 수 없습니다.');
     }
 
     return todo;
@@ -42,7 +42,7 @@ export class TodosService {
     const todo = await this.findOne(client, id);
 
     if (todo === null) {
-      throw new NotFoundException();
+      throw new NotFoundException('할 일을 찾을 수 없습니다.');
     }
 
     Object.assign(todo, updateTodoDto);
@@ -51,10 +51,10 @@ export class TodosService {
   }
 
   async remove(client: Client, id: number) {
-    const todo = this.findOne(client, id);
+    const todo = await this.findOne(client, id);
 
     if (todo === null) {
-      throw new NotFoundException();
+      throw new NotFoundException('할 일을 찾을 수 없습니다.');
     }
 
     return await this.todoRepository.delete(id);
