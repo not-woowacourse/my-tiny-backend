@@ -26,6 +26,9 @@ import { AppService } from './app.service';
         database: configService.get('DB_NAME'),
         entities: [Todo, Client],
         synchronize: true, // Don't use this in production
+        ssl: {
+          rejectUnauthorized: false,
+        },
       }),
     }),
     TodosModule,
