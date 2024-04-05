@@ -14,6 +14,7 @@ async function bootstrap() {
       'https://not-woowacourse-1-toodoo-frontend-for-example.vercel.app',
       'https://not-woowacourse.te6.in',
       'https://not-woowacourse-toodoo.yopark.dev',
+      'https://not-woowacourse-1-toodoo-frontend-jet.vercel.app',
     ],
   });
 
