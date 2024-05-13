@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNumber, IsString } from 'class-validator';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
+import { Schema } from '@/schemas/entities/schema.entity';
 import { Todo } from '@/todos/entities/todo.entity';
 
 @Entity()
@@ -24,4 +25,7 @@ export class Client {
 
   @OneToMany(() => Todo, (todo) => todo.client)
   todos: Todo[];
+
+  @OneToMany(() => Schema, (schema) => schema.client)
+  schemas: Schema[];
 }

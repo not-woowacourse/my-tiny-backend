@@ -1,27 +1,45 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
+import { Client } from '@/clients/entities/client.entity';
+import { Question } from '@/schemas/entities/question.entity';
+import { Schema } from '@/schemas/entities/schema.entity';
 
 import { CreateSchemaDto } from './dto/create-schema.dto';
-import { UpdateSchemaDto } from './dto/update-schema.dto';
 
 @Injectable()
 export class SchemasService {
-  create(createSchemaDto: CreateSchemaDto) {
-    return 'This action adds a new schema';
+  constructor(
+    @InjectRepository(Schema)
+    private readonly schemaRepository: Repository<Schema>,
+
+    @InjectRepository(Question)
+    private readonly questionRepository: Repository<Question>,
+  ) {}
+
+  async create(client: Client, createSchemaDto: CreateSchemaDto) {
+    const { questions } = createSchemaDto;
+
+    const schema = this.schemaRepository.create({ client });
+
+    await this.schemaRepository.save(schema);
+
+    questions.forEach(async (questionParam) => {
+      await this.questionRepository.save({ schema, ...questionParam });
+    });
+
+    return schema;
   }
 
-  findAll() {
-    return `This action returns all schemas`;
+  async findOne(client: Client, id: number) {
+    return await this.schemaRepository.findOneBy({ client, id });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} schema`;
-  }
-
-  update(id: number, updateSchemaDto: UpdateSchemaDto) {
-    return `This action updates a #${id} schema`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} schema`;
+  async findOneWithQuestions(client: Client, id: number) {
+    return await this.schemaRepository.findOne({
+      where: { client, id },
+      relations: ['questions'],
+    });
   }
 }

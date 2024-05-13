@@ -65,9 +65,7 @@ export class TodosController {
   @ApiBadRequestResponse({
     description: '사용자 입력 값 오류',
   })
-  async create(@Req() request, @Body() createTodoDto: CreateTodoDto) {
-    const { clientName } = request;
-
+  async create(@Req() { clientName }, @Body() createTodoDto: CreateTodoDto) {
     const client = await this.clientsService.findOneByName(clientName);
 
     return this.todosService.create(client, createTodoDto);
@@ -82,9 +80,7 @@ export class TodosController {
     type: ReadTodoResponseDto,
     isArray: true,
   })
-  async findAll(@Req() request) {
-    const { clientName } = request;
-
+  async findAll(@Req() { clientName }) {
     const client = await this.clientsService.findOneByName(clientName);
 
     return this.todosService.findAll(client);
@@ -102,9 +98,7 @@ export class TodosController {
   @ApiNotFoundResponse({
     description: '할 일을 찾을 수 없음',
   })
-  async findOne(@Req() request, @Param('id') id: string) {
-    const { clientName } = request;
-
+  async findOne(@Req() { clientName }, @Param('id') id: string) {
     const client = await this.clientsService.findOneByName(clientName);
 
     return this.todosService.findOne(client, +id);
@@ -127,12 +121,10 @@ export class TodosController {
     description: '할 일을 찾을 수 없음',
   })
   async update(
-    @Req() request,
+    @Req() { clientName },
     @Param('id') id: string,
     @Body() updateTodoDto: UpdateTodoDto,
   ) {
-    const { clientName } = request;
-
     const client = await this.clientsService.findOneByName(clientName);
 
     return this.todosService.update(client, +id, updateTodoDto);
@@ -149,9 +141,7 @@ export class TodosController {
   @ApiNotFoundResponse({
     description: '할 일을 찾을 수 없음',
   })
-  async remove(@Req() request, @Param('id') id: string) {
-    const { clientName } = request;
-
+  async remove(@Req() { clientName }, @Param('id') id: string) {
     const client = await this.clientsService.findOneByName(clientName);
 
     return this.todosService.remove(client, +id);

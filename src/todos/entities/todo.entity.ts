@@ -42,14 +42,14 @@ export class Todo {
 
   @CreateDateColumn()
   @ApiProperty({
-    description: '할 일 생성일',
+    description: '할 일 생성 일시',
     example: '2021-07-01T00:00:00.000Z',
   })
   createdAt: Date;
 
   @UpdateDateColumn()
   @ApiProperty({
-    description: '할 일 수정일',
+    description: '할 일 수정 일시',
     example: '2021-07-01T00:00:00.000Z',
   })
   updatedAt: Date;

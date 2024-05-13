@@ -5,11 +5,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ClientsModule } from '@/clients/clients.module';
 import { Client } from '@/clients/entities/client.entity';
+import { Answer } from '@/forms/entities/answer.entity';
+import { Form } from '@/forms/entities/form.entity';
+import { Question } from '@/schemas/entities/question.entity';
+import { Schema } from '@/schemas/entities/schema.entity';
 import { Todo } from '@/todos/entities/todo.entity';
 import { TodosModule } from '@/todos/todos.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { FormsModule } from './forms/forms.module';
+import { SchemasModule } from './schemas/schemas.module';
 
 @Module({
   imports: [
@@ -24,7 +30,7 @@ import { AppService } from './app.service';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [Todo, Client],
+        entities: [Todo, Client, Schema, Question, Form, Answer],
         synchronize: true, // Don't use this in production
         ssl: {
           rejectUnauthorized: false,
@@ -33,6 +39,8 @@ import { AppService } from './app.service';
     }),
     TodosModule,
     ClientsModule,
+    SchemasModule,
+    FormsModule,
   ],
   controllers: [AppController],
   providers: [
