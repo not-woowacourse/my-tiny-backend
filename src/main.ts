@@ -12,6 +12,7 @@ async function bootstrap() {
     origin: [
       'http://localhost:10242',
       'https://not-woowacourse-1-toodoo-frontend-for-example.vercel.app',
+      'https://not-woowacourse-2-surveey-frontend-for-example.vercel.app/',
       'https://not-woowacourse.te6.in',
       'https://not-woowacourse-toodoo.yopark.dev',
       'https://not-woowacourse-1-toodoo-frontend-jet.vercel.app',
