@@ -53,13 +53,13 @@ export class FormsController {
     private readonly clientsService: ClientsService,
   ) {}
 
-  @Post(':schemaId')
+  @Post(':slug')
   @ApiOperation({
     summary: '폼 제출',
   })
   @ApiParam({
-    name: 'schemaId',
-    description: '스키마 ID',
+    name: 'slug',
+    description: '스키마 슬러그',
   })
   @ApiBody({
     type: CreateFormDto,
@@ -76,14 +76,14 @@ export class FormsController {
   })
   async create(
     @Req() { clientName },
-    @Param('schemaId') schemaId: string,
+    @Param('slug') slug: string,
     @Body() createFormDto: CreateFormDto,
   ) {
     const client = await this.clientsService.findOneByName(clientName);
 
     const schemaWithQuestions = await this.schemasService.findOneWithQuestions(
       client,
-      +schemaId,
+      slug,
     );
 
     if (schemaWithQuestions === null) {
@@ -93,13 +93,13 @@ export class FormsController {
     return this.formsService.create(schemaWithQuestions, createFormDto);
   }
 
-  @Get(':schemaId')
+  @Get(':slug')
   @ApiOperation({
     summary: '모든 폼 조회',
   })
   @ApiParam({
-    name: 'schemaId',
-    description: '스키마 ID',
+    name: 'slug',
+    description: '스키마 슬러그',
   })
   @ApiOkResponse({
     description: '성공',
@@ -109,10 +109,10 @@ export class FormsController {
   @ApiNotFoundResponse({
     description: '스키마를 찾을 수 없음',
   })
-  async findAll(@Req() { clientName }, @Param('schemaId') schemaId: string) {
+  async findAll(@Req() { clientName }, @Param('slug') slug: string) {
     const client = await this.clientsService.findOneByName(clientName);
 
-    const schema = await this.schemasService.findOne(client, +schemaId);
+    const schema = await this.schemasService.findOne(client, slug);
 
     if (schema === null) {
       throw new NotFoundException('스키마를 찾을 수 없습니다.');
@@ -121,13 +121,13 @@ export class FormsController {
     return await this.formsService.findAll(schema);
   }
 
-  @Get(':schemaId/:id')
+  @Get(':slug/:id')
   @ApiOperation({
     summary: '폼 조회',
   })
   @ApiParam({
-    name: 'schemaId',
-    description: '스키마 ID',
+    name: 'slug',
+    description: '스키마 슬러그',
   })
   @ApiParam({
     name: 'id',
@@ -142,23 +142,27 @@ export class FormsController {
   })
   async findOneById(
     @Req() { clientName },
-    @Param('schemaId') schemaId: string,
-    @Param('id') id: string,
+    @Param('slug') slug: string,
+    @Param('id') id: number,
   ) {
     const client = await this.clientsService.findOneByName(clientName);
 
-    const schema = await this.schemasService.findOne(client, +schemaId);
+    const schema = await this.schemasService.findOne(client, slug);
 
     if (schema === null) {
       throw new NotFoundException('스키마를 찾을 수 없습니다.');
     }
 
-    return await this.formsService.findOne(schema, +id);
+    return await this.formsService.findOne(schema, id);
   }
 
-  @Delete(':id')
+  @Delete(':slug/:id')
   @ApiOperation({
     summary: '폼 삭제',
+  })
+  @ApiParam({
+    name: 'slug',
+    description: '스키마 슬러그',
   })
   @ApiParam({
     name: 'id',
@@ -170,9 +174,19 @@ export class FormsController {
   @ApiNotFoundResponse({
     description: '폼을 찾을 수 없음 (잘못된 스키마 ID 또는 폼 ID)',
   })
-  async remove(@Req() { clientName }, @Param('id') id: string) {
+  async remove(
+    @Req() { clientName },
+    @Param('slug') slug: string,
+    @Param('id') id: number,
+  ) {
     const client = await this.clientsService.findOneByName(clientName);
 
-    return await this.formsService.remove(client, +id);
+    const schema = await this.schemasService.findOne(client, slug);
+
+    if (schema === null) {
+      throw new NotFoundException('스키마를 찾을 수 없습니다.');
+    }
+
+    return await this.formsService.remove(client, id);
   }
 }

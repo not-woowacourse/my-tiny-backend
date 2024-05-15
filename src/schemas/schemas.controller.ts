@@ -53,7 +53,7 @@ export class SchemasController {
     type: CreateSchemaResponseDto,
   })
   @ApiBadRequestResponse({
-    description: '사용자 입력 값 오류 (잘못된 타입 등)',
+    description: '사용자 입력 값 오류 (슬러그 중복, 잘못된 타입 등)',
   })
   async create(
     @Req() { clientName },

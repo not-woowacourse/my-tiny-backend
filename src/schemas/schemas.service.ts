@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
@@ -19,9 +19,17 @@ export class SchemasService {
   ) {}
 
   async create(client: Client, createSchemaDto: CreateSchemaDto) {
-    const { questions } = createSchemaDto;
+    const { slug, questions } = createSchemaDto;
 
-    const schema = this.schemaRepository.create({ client });
+    const existingSchema = await this.schemaRepository.findOneBy({
+      slug,
+    });
+
+    if (existingSchema) {
+      throw new BadRequestException('이미 같은 슬러그의 스키마가 존재합니다');
+    }
+
+    const schema = this.schemaRepository.create({ client, slug });
 
     await this.schemaRepository.save(schema);
 
@@ -32,13 +40,13 @@ export class SchemasService {
     return schema;
   }
 
-  async findOne(client: Client, id: number) {
-    return await this.schemaRepository.findOneBy({ client, id });
+  async findOne(client: Client, slug: string) {
+    return await this.schemaRepository.findOneBy({ client, slug });
   }
 
-  async findOneWithQuestions(client: Client, id: number) {
+  async findOneWithQuestions(client: Client, slug: string) {
     return await this.schemaRepository.findOne({
-      where: { client, id },
+      where: { client, slug },
       relations: ['questions'],
     });
   }

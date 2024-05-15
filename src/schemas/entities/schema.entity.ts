@@ -1,6 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber } from 'class-validator';
-import { Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { IsNumber, IsString } from 'class-validator';
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 import { Client } from '@/clients/entities/client.entity';
 import { Form } from '@/forms/entities/form.entity';
@@ -15,6 +21,14 @@ export class Schema {
     example: 1,
   })
   id: number;
+
+  @Column({ unique: true })
+  @IsString()
+  @ApiProperty({
+    description: '스키마 슬러그',
+    example: 'umore-2024',
+  })
+  slug: string;
 
   @ManyToOne(() => Client, (client) => client.schemas)
   @ApiProperty({

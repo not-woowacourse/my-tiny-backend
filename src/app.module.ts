@@ -32,9 +32,9 @@ import { SchemasModule } from './schemas/schemas.module';
         database: configService.get('DB_NAME'),
         entities: [Todo, Client, Schema, Question, Form, Answer],
         synchronize: true, // Don't use this in production
-        ssl: {
-          rejectUnauthorized: false,
-        },
+        // ssl: {
+        //   rejectUnauthorized: false,
+        // },
       }),
     }),
     TodosModule,
