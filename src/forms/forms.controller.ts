@@ -138,7 +138,7 @@ export class FormsController {
     type: ReadFormResponseDto,
   })
   @ApiNotFoundResponse({
-    description: '폼을 찾을 수 없음 (잘못된 스키마 ID 또는 폼 ID)',
+    description: '폼을 찾을 수 없음 (잘못된 스키마 슬러그 또는 폼 ID)',
   })
   async findOneById(
     @Req() { clientName },
@@ -172,7 +172,7 @@ export class FormsController {
     description: '성공',
   })
   @ApiNotFoundResponse({
-    description: '폼을 찾을 수 없음 (잘못된 스키마 ID 또는 폼 ID)',
+    description: '폼을 찾을 수 없음 (잘못된 스키마 슬러그 또는 폼 ID)',
   })
   async remove(
     @Req() { clientName },
