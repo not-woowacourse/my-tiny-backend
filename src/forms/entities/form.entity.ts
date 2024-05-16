@@ -26,10 +26,6 @@ export class Form {
   createdAt: Date;
 
   @ManyToOne(() => Schema, (schema) => schema.forms)
-  @ApiProperty({
-    type: () => Schema,
-    description: '해당 폼의 스키마',
-  })
   schema: Schema;
 
   @OneToMany(() => Answer, (answer) => answer.form)

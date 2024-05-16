@@ -64,18 +64,10 @@ export class Answer {
   dateValue: Date;
 
   @ManyToOne(() => Question, (question) => question.answers)
-  @ApiProperty({
-    type: () => Question,
-    description: '어느 질문에 대한 답변인지',
-  })
   question: Question;
 
   @ManyToOne(() => Form, (form) => form.answers, {
     onDelete: 'CASCADE',
-  })
-  @ApiProperty({
-    type: () => Form,
-    description: '답변이 속한 폼',
   })
   form: Form;
 }

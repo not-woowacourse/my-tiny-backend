@@ -31,10 +31,6 @@ export class Schema {
   slug: string;
 
   @ManyToOne(() => Client, (client) => client.schemas)
-  @ApiProperty({
-    type: () => Client,
-    description: '스키마를 등록한 클라이언트',
-  })
   client: Client;
 
   @OneToMany(() => Form, (form) => form.schema)

@@ -55,13 +55,5 @@ export class Todo {
   updatedAt: Date;
 
   @ManyToOne(() => Client, (client) => client.todos)
-  @ApiProperty({
-    type: () => Client,
-    description: '할 일을 등록한 클라이언트',
-    example: {
-      id: 1,
-      name: 'Yongjun Park',
-    },
-  })
   client: Client;
 }

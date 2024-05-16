@@ -63,10 +63,6 @@ export class Question {
   isOptional: boolean;
 
   @ManyToOne(() => Schema, (schema) => schema.questions)
-  @ApiProperty({
-    type: () => Schema,
-    description: '질문이 속한 스키마',
-  })
   schema: Schema;
 
   @OneToMany(() => Answer, (answer) => answer.question)
