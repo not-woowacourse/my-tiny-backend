@@ -89,12 +89,15 @@ export class SchemasController {
   async findOne(@Req() { clientName }, @Param('slug') slug: string) {
     const client = await this.clientsService.findOneByName(clientName);
 
-    const schema = await this.schemasService.findOne(client, slug);
+    const schemaWithQuestions = await this.schemasService.findOneWithQuestions(
+      client,
+      slug,
+    );
 
-    if (schema === null) {
+    if (schemaWithQuestions === null) {
       throw new NotFoundException('스키마를 찾을 수 없습니다.');
     }
 
-    return schema;
+    return schemaWithQuestions;
   }
 }
