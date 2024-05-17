@@ -25,6 +25,7 @@ import {
 
 import { ClientGuard } from '@/auth/client.guard';
 import { ClientsService } from '@/clients/clients.service';
+import { BatchDeleteFormDto } from '@/forms/dto/batch-delete-form.dto';
 import { CreateFormResponseDto } from '@/forms/dto/create-form.response.dto';
 import { ReadFormResponseDto } from '@/forms/dto/read-form-response.dto';
 import { SchemasService } from '@/schemas/schemas.service';
@@ -188,5 +189,40 @@ export class FormsController {
     }
 
     return await this.formsService.remove(client, id);
+  }
+
+  @Post(':slug/batch-delete')
+  @ApiOperation({
+    summary: '폼 일괄 삭제',
+  })
+  @ApiParam({
+    name: 'slug',
+    description: '스키마 슬러그',
+  })
+  @ApiBody({
+    type: BatchDeleteFormDto,
+  })
+  @ApiOkResponse({
+    description: '성공',
+  })
+  @ApiNotFoundResponse({
+    description: '폼을 찾을 수 없음 (잘못된 스키마 슬러그 또는 폼 ID)',
+  })
+  async batchRemove(
+    @Req() { clientName },
+    @Param('slug') slug: string,
+    @Body() batchDeleteFormDto: BatchDeleteFormDto,
+  ) {
+    const client = await this.clientsService.findOneByName(clientName);
+
+    const schema = await this.schemasService.findOne(client, slug);
+
+    if (schema === null) {
+      throw new NotFoundException('스키마를 찾을 수 없습니다.');
+    }
+
+    const { ids } = batchDeleteFormDto;
+
+    return await this.formsService.batchRemove(client, ids);
   }
 }

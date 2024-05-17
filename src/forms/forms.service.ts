@@ -4,7 +4,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
 import { Client } from '@/clients/entities/client.entity';
 import { Answer } from '@/forms/entities/answer.entity';
@@ -189,5 +189,17 @@ export class FormsService {
     }
 
     return await this.formRepository.delete(id);
+  }
+
+  async batchRemove(client: Client, ids: number[]) {
+    const forms = await this.formRepository.find({
+      where: { schema: { client }, id: In(ids) },
+    });
+
+    if (forms.length !== ids.length) {
+      throw new NotFoundException('폼을 찾을 수 없습니다.');
+    }
+
+    return await this.formRepository.delete(ids);
   }
 }
