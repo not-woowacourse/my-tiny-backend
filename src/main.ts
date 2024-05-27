@@ -19,6 +19,7 @@ async function bootstrap() {
       'https://not-woowacourse-1-toodoo-frontend-jet.vercel.app',
       'https://nextjs-session-1-toodoo.vercel.app',
       'https://one-hope.vercel.app',
+      'https://2-surveey-frontend-umber.vercel.app',
     ],
   });
 
