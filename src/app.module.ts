@@ -7,6 +7,7 @@ import { ClientsModule } from '@/clients/clients.module';
 import { Client } from '@/clients/entities/client.entity';
 import { Answer } from '@/forms/entities/answer.entity';
 import { Form } from '@/forms/entities/form.entity';
+import { Movie } from '@/movies/entities/movie.entity';
 import { Question } from '@/schemas/entities/question.entity';
 import { Schema } from '@/schemas/entities/schema.entity';
 import { Todo } from '@/todos/entities/todo.entity';
@@ -31,7 +32,7 @@ import { SchemasModule } from './schemas/schemas.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [Todo, Client, Schema, Question, Form, Answer],
+        entities: [Todo, Client, Schema, Question, Form, Answer, Movie],
         synchronize: true, // Don't use this in production
         // ssl: {
         //   rejectUnauthorized: false,

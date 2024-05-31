@@ -1,27 +1,39 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ILike, Repository } from 'typeorm';
 
-import { CreateMovieDto } from './dto/create-movie.dto';
-import { UpdateMovieDto } from './dto/update-movie.dto';
+import { Movie } from '@/movies/entities/movie.entity';
 
 @Injectable()
 export class MoviesService {
-  create(createMovieDto: CreateMovieDto) {
-    return 'This action adds a new movie';
+  constructor(
+    @InjectRepository(Movie)
+    private readonly movieRepository: Repository<Movie>,
+  ) {}
+
+  async search(query: string, limit: number) {
+    /**
+     * TODO: 한글 자모 분해 후 검색
+     */
+    const movies = await this.movieRepository.find({
+      where: [
+        { title: ILike(`%${query}%`) },
+        { alternativeTitle: ILike(`%${query}%`) },
+        { rights: ILike(`%${query}%`) },
+      ],
+      take: limit,
+    });
+
+    return movies;
   }
 
-  findAll() {
-    return `This action returns all movies`;
-  }
+  async findOne(id: number) {
+    const movie = await this.movieRepository.findOneBy({ id });
 
-  findOne(id: number) {
-    return `This action returns a #${id} movie`;
-  }
+    if (movie === null) {
+      throw new NotFoundException('영화를 찾을 수 없습니다.');
+    }
 
-  update(id: number, updateMovieDto: UpdateMovieDto) {
-    return `This action updates a #${id} movie`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} movie`;
+    return movie;
   }
 }
