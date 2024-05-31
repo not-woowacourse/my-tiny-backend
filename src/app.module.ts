@@ -15,6 +15,7 @@ import { TodosModule } from '@/todos/todos.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { FormsModule } from './forms/forms.module';
+import { MoviesModule } from './movies/movies.module';
 import { SchemasModule } from './schemas/schemas.module';
 
 @Module({
@@ -41,6 +42,7 @@ import { SchemasModule } from './schemas/schemas.module';
     ClientsModule,
     SchemasModule,
     FormsModule,
+    MoviesModule,
   ],
   controllers: [AppController],
   providers: [
