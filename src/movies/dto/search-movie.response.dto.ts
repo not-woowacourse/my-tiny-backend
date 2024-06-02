@@ -1,7 +1,28 @@
+import { ApiProperty, OmitType } from '@nestjs/swagger';
+
 import { Movie } from '@/movies/entities/movie.entity';
 
-/**
- * @note
- * 아직 검색용 테이블을 분리한 상태가 아닙니다. 검색 시 오는 객체와 상세 조회 시 오는 객체가 동일합니다.
- */
-export class SearchMovieResponseDto extends Movie {}
+class MatchedFields {
+  @ApiProperty({
+    description: 'title 매칭 여부',
+    example: false,
+  })
+  title: boolean;
+
+  @ApiProperty({
+    description: 'alternativeTitle 매칭 여부',
+  })
+  alternativeTitle: boolean;
+
+  @ApiProperty({
+    description: 'rights 매칭 여부',
+  })
+  rights: boolean;
+}
+export class SearchMovieResponseDto extends OmitType(Movie, [
+  'titleJamo',
+  'rightsJamo',
+] as const) {
+  @ApiProperty({ type: MatchedFields })
+  matchedFields: MatchedFields;
+}

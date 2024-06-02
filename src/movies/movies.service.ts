@@ -15,19 +15,74 @@ export class MoviesService {
   async search(query: string, limit: number) {
     const disassembledQuery = disassembleHangul(query);
 
-    const movies = await this.movieRepository.find({
-      where: [
-        { titleJamo: ILike(`%${disassembledQuery}%`) },
-        { alternativeTitle: ILike(`%${query}%`) },
-        { rightsJamo: ILike(`%${disassembledQuery}%`) },
-      ],
+    const titleJamoMatches = await this.movieRepository.find({
+      where: { titleJamo: ILike(`%${disassembledQuery}%`) },
       take: limit,
     });
 
-    return movies.map((movie) => {
-      const { titleJamo, rightsJamo, ...rest } = movie;
-      return rest;
+    const alternativeTitleMatches = await this.movieRepository.find({
+      where: { alternativeTitle: ILike(`%${query}%`) },
+      take: limit,
     });
+
+    const rightsJamoMatches = await this.movieRepository.find({
+      where: { rightsJamo: ILike(`%${disassembledQuery}%`) },
+      take: limit,
+    });
+
+    const movieMatchMap = new Map();
+
+    // titleJamo 매칭 결과 처리
+    for (const movie of titleJamoMatches) {
+      if (!movieMatchMap.has(movie.id)) {
+        movieMatchMap.set(movie.id, {
+          ...movie,
+          matchedFields: {
+            title: false,
+            alternativeTitle: false,
+            rights: false,
+          },
+        });
+      }
+      movieMatchMap.get(movie.id).matchedFields.title = true;
+    }
+
+    // alternativeTitle 매칭 결과 처리
+    for (const movie of alternativeTitleMatches) {
+      if (!movieMatchMap.has(movie.id)) {
+        movieMatchMap.set(movie.id, {
+          ...movie,
+          matchedFields: {
+            title: false,
+            alternativeTitle: false,
+            rights: false,
+          },
+        });
+      }
+      movieMatchMap.get(movie.id).matchedFields.alternativeTitle = true;
+    }
+
+    // rightsJamo 매칭 결과 처리
+    for (const movie of rightsJamoMatches) {
+      if (!movieMatchMap.has(movie.id)) {
+        movieMatchMap.set(movie.id, {
+          ...movie,
+          matchedFields: {
+            title: false,
+            alternativeTitle: false,
+            rights: false,
+          },
+        });
+      }
+      movieMatchMap.get(movie.id).matchedFields.rights = true;
+    }
+
+    // 결과 배열 생성 및 titleJamo, rightsJamo 속성 제거
+    const results = Array.from(movieMatchMap.values()).map(
+      ({ titleJamo, rightsJamo, ...rest }) => rest,
+    );
+
+    return results;
   }
 
   async findOne(id: number) {

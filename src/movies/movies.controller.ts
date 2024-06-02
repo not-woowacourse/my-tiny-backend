@@ -55,7 +55,7 @@ export class MoviesController {
   })
   @ApiOkResponse({
     description: '성공',
-    type: ReadMovieResponseDto,
+    type: SearchMovieResponseDto,
     isArray: true,
   })
   search(@Query('query') query: string, @Query('limit') limit: number = 10) {
@@ -72,7 +72,7 @@ export class MoviesController {
   })
   @ApiOkResponse({
     description: '성공',
-    type: SearchMovieResponseDto,
+    type: ReadMovieResponseDto,
   })
   @ApiNotFoundResponse({
     description: '영화를 찾을 수 없음',
