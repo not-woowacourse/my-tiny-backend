@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { disassembleHangul } from 'es-hangul';
 import { ILike, Repository } from 'typeorm';
 
 import { Movie } from '@/movies/entities/movie.entity';
@@ -12,19 +13,21 @@ export class MoviesService {
   ) {}
 
   async search(query: string, limit: number) {
-    /**
-     * TODO: 한글 자모 분해 후 검색
-     */
+    const disassembledQuery = disassembleHangul(query);
+
     const movies = await this.movieRepository.find({
       where: [
-        { title: ILike(`%${query}%`) },
+        { titleJamo: ILike(`%${disassembledQuery}%`) },
         { alternativeTitle: ILike(`%${query}%`) },
-        { rights: ILike(`%${query}%`) },
+        { rightsJamo: ILike(`%${disassembledQuery}%`) },
       ],
       take: limit,
     });
 
-    return movies;
+    return movies.map((movie) => {
+      const { titleJamo, rightsJamo, ...rest } = movie;
+      return rest;
+    });
   }
 
   async findOne(id: number) {

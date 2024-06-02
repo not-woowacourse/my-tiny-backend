@@ -17,6 +17,13 @@ export class Movie {
   @ApiProperty({ description: '영화 제목', example: '기생충' })
   title: string;
 
+  @Column()
+  @ApiProperty({
+    description: '영화 제목 (자모 분리)',
+    example: 'ㄱㅣㅅㅐㅇㅊㅜㅇ',
+  })
+  titleJamo: string;
+
   @Column({ nullable: true })
   @ApiPropertyOptional({ description: '대체 제목', example: 'PARASITE' })
   alternativeTitle: string;
@@ -51,4 +58,11 @@ export class Movie {
   @Column({ nullable: true })
   @ApiPropertyOptional({ description: '권리 주체', example: '봉준호' })
   rights: string;
+
+  @Column({ nullable: true })
+  @ApiPropertyOptional({
+    description: '권리 주체 (자모 분리)',
+    example: 'ㅂㅗㅇㅈㅜㄴㅎㅗ',
+  })
+  rightsJamo: string;
 }
