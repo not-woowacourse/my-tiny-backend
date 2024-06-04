@@ -13,7 +13,42 @@ export class MoviesService {
   ) {}
 
   async search(query: string, limit: number) {
-    const disassembledQuery = disassembleHangul(query);
+    const EXCEPTIONAL_DICT = {
+      /* 이중모음 (11개) */
+      ㅐ: 'ㅏㅣ',
+      ㅔ: 'ㅓㅣ',
+      ㅖ: 'ㅕㅣ',
+      ㅘ: 'ㅗㅏ',
+      ㅙ: 'ㅗㅐ',
+      ㅚ: 'ㅗㅣ',
+      ㅝ: 'ㅜㅓ',
+      ㅞ: 'ㅜㅔ',
+      ㅟ: 'ㅜㅣ',
+      ㅢ: 'ㅡㅣ',
+      /* 겹자음 (5개) */
+      ㄲ: 'ㄱㄱ',
+      ㄸ: 'ㄷㄷ',
+      ㅃ: 'ㅂㅂ',
+      ㅆ: 'ㅅㅅ',
+      ㅉ: 'ㅈㅈ',
+      /* 겹받침 (11개) */
+      ㄳ: 'ㄱㅅ',
+      ㄵ: 'ㄴㅈ',
+      ㄶ: 'ㄴㅎ',
+      ㄺ: 'ㄹㄱ',
+      ㄻ: 'ㄹㅁ',
+      ㄼ: 'ㄹㅂ',
+      ㄽ: 'ㄹㅅ',
+      ㄾ: 'ㄹㅌ',
+      ㄿ: 'ㄹㅍ',
+      ㅀ: 'ㄹㅎ',
+      ㅄ: 'ㅂㅅ',
+    } as const;
+
+    const disassembledQuery = disassembleHangul(query).replace(
+      /./g,
+      (char) => EXCEPTIONAL_DICT[char] || char,
+    );
 
     const titleJamoMatches = await this.movieRepository.find({
       where: { titleJamo: ILike(`%${disassembledQuery}%`) },
