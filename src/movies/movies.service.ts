@@ -92,6 +92,8 @@ export class MoviesService {
       throw new NotFoundException('영화를 찾을 수 없습니다.');
     }
 
-    return movie;
+    const { titleJamo, rightsJamo, ...rest } = movie;
+
+    return rest;
   }
 }
