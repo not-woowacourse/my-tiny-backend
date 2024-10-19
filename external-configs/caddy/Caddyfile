@@ -1,0 +1,7 @@
+{
+  email yopark.dev@gmail.com
+}
+
+not-woowacourse-api.yopark.dev {
+  reverse_proxy localhost:10241
+}
