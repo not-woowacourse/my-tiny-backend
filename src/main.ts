@@ -17,6 +17,7 @@ async function bootstrap() {
       'https://not-woowacourse-1-toodoo-frontend-for-example.vercel.app',
       'https://not-woowacourse-2-surveey-frontend-for-example.vercel.app',
       'https://not-woowacourse-3-searzh-frontend-for-example.vercel.app',
+      'https://not-woowacourse-1-toodoo-frontend-react-for-example.vercel.app',
 
       /* 도구 */
       'https://not-woowacourse-2-surveey-admin.yopark.dev',
